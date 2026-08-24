@@ -374,6 +374,46 @@ code {
   border-top: 1px solid var(--граница);
 }
 
+/* Сведения о продавце. Показаны всегда, не прячутся в раскрывашку:
+   этого требует модерация ЮKassa, да и покупателю спокойнее видеть,
+   кому он платит. */
+.продавец {
+  margin-bottom: 1.8rem;
+  font-size: .85rem;
+  color: var(--чернила-тише);
+}
+
+.продавец__заголовок {
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--чернила-тише);
+  font-weight: 600;
+  margin-bottom: .9rem;
+}
+
+.продавец__колонки {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.продавец__подпись {
+  font-weight: 600;
+  color: var(--чернила);
+  margin-bottom: .3rem;
+}
+
+.продавец__ответ {
+  margin-top: .5rem;
+  font-size: .8rem;
+}
+
+.продавец a { color: var(--акцент); }
+
+@media (min-width: 600px) {
+  .продавец__колонки { grid-template-columns: 1fr 1fr; gap: 2rem; }
+}
+
 .документ {
   border-bottom: 1px solid var(--граница);
 }
