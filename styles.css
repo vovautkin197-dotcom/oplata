@@ -1,0 +1,438 @@
+/* Страница оплаты цифрового продукта.
+   Вёрстка mobile-first: базовые правила описывают телефон,
+   медиазапросы внизу расширяют макет для планшета и ПК. */
+
+:root {
+  --чернила: #1c2430;
+  --чернила-тише: #5b6675;
+  --фон: #f4f6f9;
+  --карточка: #ffffff;
+  --граница: #e0e5ec;
+  --акцент: #2f6fed;
+  --акцент-темный: #1d55c9;
+  --успех: #1a8f52;
+  --ошибка: #c53727;
+  --радиус: 14px;
+  --тень: 0 2px 12px rgba(28, 36, 48, .07);
+  --тень-заметная: 0 8px 28px rgba(28, 36, 48, .12);
+  --ширина: 760px;
+}
+
+/* Тёмная тема включается по настройке системы пользователя.
+   Меняем только цвета — размеры и расположение остаются теми же. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --чернила: #e8ecf2;
+    --чернила-тише: #98a3b3;
+    --фон: #12171f;
+    --карточка: #1a212b;
+    --граница: #2b3441;
+    --акцент: #6b9bff;
+    --акцент-темный: #82adff;
+    --успех: #4ec585;
+    --ошибка: #ff7a68;
+    --тень: 0 2px 12px rgba(0, 0, 0, .3);
+    --тень-заметная: 0 8px 28px rgba(0, 0, 0, .45);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--чернила);
+  background: var(--фон);
+  /* Отступ снизу для iPhone с домашней полосой */
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+h1, h2 { font-weight: 650; letter-spacing: -.02em; line-height: 1.25; margin: 0; }
+
+p { margin: 0 0 .8em; }
+p:last-child { margin-bottom: 0; }
+
+a { color: var(--акцент); }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .9em;
+  background: var(--фон);
+  padding: .1em .4em;
+  border-radius: 5px;
+}
+
+/* Видимая рамка при управлении с клавиатуры. Без неё человек,
+   который не пользуется мышью, теряет место на странице. */
+:focus-visible {
+  outline: 3px solid var(--акцент);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.страница {
+  max-width: var(--ширина);
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem;
+}
+
+/* ---------- Экраны ---------- */
+
+.экран { animation: появление .25s ease-out; }
+
+.экран--центр {
+  text-align: center;
+  padding: 3rem 0 2rem;
+}
+
+.экран__заголовок { font-size: 1.4rem; margin: 0 0 .5rem; }
+
+.экран__текст { color: var(--чернила-тише); }
+
+.экран__сноска {
+  font-size: .88rem;
+  color: var(--чернила-тише);
+  margin-top: 1.2rem;
+}
+
+@keyframes появление {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Тем, кому анимация мешает (настройка системы), показываем сразу. */
+@media (prefers-reduced-motion: reduce) {
+  .экран { animation: none; }
+  .крутилка { animation-duration: 2s; }
+}
+
+/* ---------- Шапка ---------- */
+
+.шапка { margin-bottom: 1.5rem; }
+
+.шапка__автор {
+  font-size: .85rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--чернила-тише);
+  margin-bottom: .5rem;
+}
+
+.шапка__название {
+  font-size: 1.9rem;
+  margin-bottom: .6rem;
+}
+
+.шапка__лид {
+  font-size: 1.05rem;
+  color: var(--чернила-тише);
+}
+
+/* ---------- Карточки ---------- */
+
+.карточка {
+  background: var(--карточка);
+  border: 1px solid var(--граница);
+  border-radius: var(--радиус);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--тень);
+}
+
+.карточка__заголовок {
+  font-size: 1.1rem;
+  margin-bottom: .8rem;
+}
+
+.карточка--оплата {
+  box-shadow: var(--тень-заметная);
+  border-color: color-mix(in srgb, var(--акцент) 35%, var(--граница));
+}
+
+.список { margin: 0; padding-left: 1.3em; }
+.список li { margin-bottom: .45em; }
+.список li:last-child { margin-bottom: 0; }
+.список--нумерованный { counter-reset: none; }
+
+/* ---------- Цена ---------- */
+
+.цена {
+  text-align: center;
+  padding-bottom: 1.1rem;
+  margin-bottom: 1.1rem;
+  border-bottom: 1px solid var(--граница);
+}
+
+.цена__сумма {
+  font-size: 2.3rem;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  margin: 0;
+  min-height: 1.3em;
+}
+
+.цена__подпись {
+  font-size: .88rem;
+  color: var(--чернила-тише);
+  margin: .2rem 0 0;
+}
+
+/* Пульсирующая заглушка на месте цены, пока она грузится с сервера */
+.цена__загрузка {
+  display: inline-block;
+  width: 7rem; height: 1.1em;
+  vertical-align: -.15em;
+  border-radius: 8px;
+  background: var(--граница);
+  animation: пульс 1.4s ease-in-out infinite;
+}
+
+@keyframes пульс {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: .45; }
+}
+
+/* ---------- Поля формы ---------- */
+
+.поле { margin-bottom: 1.1rem; }
+
+.поле__подпись {
+  display: block;
+  font-weight: 600;
+  font-size: .92rem;
+  margin-bottom: .35rem;
+}
+
+.поле__ввод {
+  width: 100%;
+  /* 17px и больше — иначе Safari на iPhone увеличивает страницу
+     при постановке курсора в поле */
+  font: inherit;
+  padding: .75rem .9rem;
+  color: var(--чернила);
+  background: var(--фон);
+  border: 1.5px solid var(--граница);
+  border-radius: 10px;
+  transition: border-color .15s;
+}
+
+.поле__ввод:focus {
+  border-color: var(--акцент);
+  outline: none;
+}
+
+.поле__ввод:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--акцент) 40%, transparent);
+  outline-offset: 1px;
+}
+
+.поле__ввод[aria-invalid="true"] { border-color: var(--ошибка); }
+
+.поле__подсказка {
+  font-size: .82rem;
+  color: var(--чернила-тише);
+  margin: .35rem 0 0;
+}
+
+.поле__ошибка {
+  font-size: .85rem;
+  color: var(--ошибка);
+  margin: .35rem 0 0;
+  font-weight: 500;
+}
+
+.согласие {
+  display: flex;
+  gap: .65rem;
+  align-items: flex-start;
+  cursor: pointer;
+  font-size: .9rem;
+  line-height: 1.45;
+}
+
+.согласие input {
+  /* Крупнее стандартного: по маленькому чекбоксу тяжело попасть пальцем */
+  width: 1.25rem; height: 1.25rem;
+  margin: .1rem 0 0;
+  flex-shrink: 0;
+  accent-color: var(--акцент);
+  cursor: pointer;
+}
+
+.согласие__текст { color: var(--чернила-тише); }
+
+/* ---------- Кнопки ---------- */
+
+.кнопка {
+  display: block;
+  width: 100%;
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  /* 52px по высоте — палец попадает уверенно */
+  padding: .85rem 1.2rem;
+  border: 1.5px solid transparent;
+  border-radius: 11px;
+  cursor: pointer;
+  transition: background-color .15s, opacity .15s;
+}
+
+.кнопка--главная {
+  color: #fff;
+  background: var(--акцент);
+}
+
+.кнопка--главная:hover:not(:disabled) { background: var(--акцент-темный); }
+
+.кнопка--главная:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.кнопка--второстепенная {
+  color: var(--акцент);
+  background: var(--карточка);
+  border-color: var(--акцент);
+  margin-top: .6rem;
+}
+
+.кнопка--тихая {
+  color: var(--чернила-тише);
+  background: transparent;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+.кнопка--тихая:hover { color: var(--чернила); }
+
+.способы {
+  font-size: .8rem;
+  color: var(--чернила-тише);
+  text-align: center;
+  margin: .8rem 0 0;
+}
+
+/* ---------- Крутилка ---------- */
+
+.крутилка {
+  width: 34px; height: 34px;
+  margin: 0 auto 1rem;
+  border: 3px solid var(--граница);
+  border-top-color: var(--акцент);
+  border-radius: 50%;
+  animation: вращение .8s linear infinite;
+}
+
+@keyframes вращение { to { transform: rotate(360deg); } }
+
+/* ---------- Успех ---------- */
+
+.галка {
+  width: 56px; height: 56px;
+  margin: 0 auto .8rem;
+  display: grid;
+  place-items: center;
+  font-size: 1.9rem;
+  color: #fff;
+  background: var(--успех);
+  border-radius: 50%;
+}
+
+#экран-успех .кнопка--главная { margin-top: 1.5rem; }
+
+/* ---------- Виджет ЮKassa ---------- */
+
+#payment-form {
+  margin-top: 1rem;
+  min-height: 320px;
+}
+
+/* ---------- Подвал ---------- */
+
+.подвал {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--граница);
+}
+
+.документ {
+  border-bottom: 1px solid var(--граница);
+}
+
+.документ__заголовок {
+  padding: .8rem .2rem;
+  font-size: .92rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.документ__заголовок::-webkit-details-marker { display: none; }
+
+.документ__заголовок::after {
+  content: "+";
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--чернила-тише);
+}
+
+.документ[open] .документ__заголовок::after { content: "−"; }
+
+.документ__текст {
+  padding: 0 .2rem 1.1rem;
+  font-size: .85rem;
+  line-height: 1.6;
+  color: var(--чернила-тише);
+}
+
+.подвал__низ {
+  margin-top: 1.5rem;
+  font-size: .8rem;
+  color: var(--чернила-тише);
+  text-align: center;
+}
+
+/* ---------- Планшет и ПК ----------
+   Одна колонка сохраняется: страница короткая, дробить её на колонки
+   значит заставлять глаз метаться. Меняем только размеры и воздух. */
+
+@media (min-width: 600px) {
+  .страница { padding: 2.5rem 1.5rem 4rem; }
+
+  .шапка__название { font-size: 2.4rem; }
+  .шапка__лид { font-size: 1.12rem; }
+
+  .карточка { padding: 1.6rem; }
+  .цена__сумма { font-size: 2.7rem; }
+
+  /* На широком экране растянутая во всю ширину кнопка выглядит нелепо */
+  .кнопка { max-width: 380px; margin-left: auto; margin-right: auto; }
+  .кнопка--тихая { max-width: none; }
+}
+
+@media (min-width: 900px) {
+  .шапка { margin-bottom: 2rem; }
+  .шапка__название { font-size: 2.6rem; }
+}
